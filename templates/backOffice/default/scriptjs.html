@@ -1,0 +1,41 @@
+{$tailleTitle=70}
+{$tailleMeta=150}
+{$tailleKey=150}
+{$meta_og_title=70}
+{$meedleseo_og_description=150}
+<script>
+	$('#meta_og_image').parent().parent().attr('enctype',"multipart/form-data");
+	
+	$('#meta_title').next().addClass('col-md-8').after('<span class="col-md-4 h4 compteur compteur_meta_title text-right" data-limit="{$tailleTitle}">0/{$tailleTitle}</span>');
+	$('#meta_description').next().addClass('col-md-8').after('<span class="col-md-4 h4 compteur compteur_meta_description text-right" data-limit="{$tailleMeta}">0/{$tailleMeta}</span>');
+	$('#meta_keywords').next().addClass('col-md-8').after('<span class="col-md-4 h4 compteur compteur_meta_description text-right" data-limit="{$tailleKey}">0/{$tailleKey}</span>');
+	$('#meta_og_title').next().addClass('col-md-8').after('<span class="col-md-4 h4 compteur compteur_meta_description text-right" data-limit="{$meta_og_title}">0/{$meta_og_title}</span>');
+	$('#meedleseo_og_description').next().addClass('col-md-8').after('<span class="col-md-4 h4 compteur compteur_meta_description text-right" data-limit="{$meedleseo_og_description}">0/{$meedleseo_og_description}</span>');
+	
+	compt($('#meta_title'));
+	compt($('#meta_description'));
+	compt($('#meta_keywords'));
+	compt($('#meta_og_title'));
+	compt($('#meedleseo_og_description'));
+		
+	function compt(objet){
+		
+		$(objet).unbind().keyup(function(){
+			compt($(this));
+		});
+		var nbrtt = $(objet).val().length;
+		var objetCompt = $(objet).next().next();
+		var limit = $(objetCompt).data('limit');
+		$(objetCompt).html( nbrtt + '/' + limit);
+
+		if(nbrtt > limit){
+			$(objetCompt).css('color','red');
+			$(objet).css('color','red');
+		}else{
+			$(objetCompt).css('color','#737373');
+			$(objet).css('color','#737373');
+		}
+
+	}
+	
+</script>

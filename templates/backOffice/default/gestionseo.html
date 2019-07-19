@@ -1,0 +1,106 @@
+{extends file="admin-layout.tpl"}
+
+{block name="no-return-functions"}
+	{$admin_current_location = 'tools'}
+{/block}
+
+{block name="page-title"}{intl l='SEO'}{/block}
+
+{block name="main-content"}
+{$current_id=0}
+{$seoType='index'}
+
+{$title=''}
+{$description=''}
+{$meta_title=''}
+{$meta_description=''}
+{$meta_keywords=''}
+{$chapo=''}
+{$postscriptum=''}
+
+{loop type="meedleseo" name="meedleseo" oi="{$current_id}" ot="{$seoType}" locale="{$locale}"}
+{$title=$PAGE_TITLE}
+{$description=$PAGE_DESCRIPTION}
+{$meta_title=$META_TITLE}
+{$meta_description=$META_DESCRIPTION}
+{$meta_keywords=$META_KEYWORDS}
+{$chapo=$PAGE_CHAPO}
+{$postscriptum=$PAGE_POSTSCRIPTUM}
+{/loop}
+
+<div class="modules">
+	<div id="wrapper" class="container">
+		<div class="clearfix">
+			<ul class="breadcrumb pull-left">
+				<li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+				<li><a href="{url path='/admin/tools'}">{intl l="Outils"}</a></li>
+				<li>{intl l="SEO par défaut"}</li>
+			</ul>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="general-block-decorator">
+					{hook name="tab-seo.top" id=$current_id type=$seoType}
+
+
+<div class="form-container">
+    <form method="post" action="{url path="/admin/modules/meedleseo/update"}"  class="clearfix">
+		<input type="hidden" name="lang" value="{$edit_language_id|default:1}">
+		<input type="hidden" name="locale" value="{$locale}">
+		<input type="hidden" name="view_name" value="index">
+		<input type="hidden" name="view_id" value="0">
+		<input type="hidden" name="title" value="{$title}">
+		<input type="hidden" name="chapo" value="{$chapo}">
+		<input type="hidden" name="description" value="{$description}">
+		<input type="hidden" name="postscriptum" value="{$postscriptum}">
+		<input type="hidden" name="success_url" value="{url path="/admin/modules/meedleseo/gestionseo"}">
+        {include
+            file = "includes/inner-form-toolbar.html"
+            hide_submit_buttons = false
+            page_url  = {$pageUrl}
+            close_url = {$closeUrl}
+            current_tab = "seo"
+        }
+
+<div class="form-group ">
+<label for="meta_title" class="control-label">{intl l="Titre de la page"} </label>
+		<input type="text" id="meta_title" name="meta_title" value="{$meta_title}" class="form-control " placeholder="{intl l="Assurez-vous d'avoir un titre clair et qui contient les mots-clés correspondant à la page en cours"}" style="color: rgb(115, 115, 115);">
+		<span class="help-block col-md-8">{intl l="L'élément HTML TITLE est le plus important dans votre page"}</span>
+</div>
+    <div class="form-group ">
+                    <label for="meta_description" class="control-label">{intl l="Meta description"} </label>
+                <textarea id="meta_description" name="meta_description" class="form-control " rows="6" placeholder="{intl l="Assurez vous d'utiliser des mots-clés présents dans la page courante"}" style="color: rgb(115, 115, 115);">{$meta_description}</textarea>
+                    <span class="help-block col-md-8">{intl l="Votre description ne devrait pas dépasser 150 à 160 caractères"}</span>
+            </div>
+    <div class="form-group ">
+                    <label for="meta_keywords" class="control-label">{intl l="Meta keywords"} 
+            </label>
+                <textarea id="meta_keywords" name="meta_keywords" class="form-control " rows="3" placeholder="{intl l="Ne répétez pas sans cesse les même mots-clés dans une ligne. Préférez utiliser des expressions de mots-clés"}" style="color: rgb(115, 115, 115);">{$meta_keywords}</textarea>
+                    <span class="help-block col-md-8">{intl l="Vous n'avez pas besoin d'utiliser de virgules ou d'autres signes de ponctuation"}</span>
+            </div>
+							{hook name="tab-seo.update-form" id=$current_id type=$seoType}
+
+							{include
+								file = "includes/inner-form-toolbar.html"
+								hide_submit_buttons = false
+								hide_flags = true
+								page_url  = {$pageUrl}
+								close_url = {$closeUrl}
+							}
+
+						</form>
+
+					</div>
+
+
+					{hook name="tab-seo.bottom" id=$current_id type=$seoType}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}
+
+{block name="after-javascript-include"}
+
+{/block}
