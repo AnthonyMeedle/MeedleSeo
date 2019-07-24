@@ -34,9 +34,9 @@
             <tag name="hook.event_listener" event="tab-seo.update-form" type="back" method="onTabSeoUpdateForm" />
             <tag name="hook.event_listener" event="main.footer-js" type="back" method="onMainFooterJs" />
             <tag name="hook.event_listener" event="main.head-bottom" type="front" method="onMainHeadBottom" />
+			<tag name="hook.event_listener" event="main.top-menu-tools" type="back" method="onMainTopMenuToolsContents" />
         </hook>
     </hooks>
-
 
     <!--
     <exports>

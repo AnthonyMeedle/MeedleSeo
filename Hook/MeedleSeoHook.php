@@ -2,6 +2,7 @@
 
 namespace MeedleSeo\Hook;
 
+use Thelia\Core\Event\Hook\HookRenderBlockEvent;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Hook\BaseHook;
 use Thelia\Tools\URL;
@@ -19,5 +20,14 @@ class MeedleSeoHook extends BaseHook {
 		$html = $this->render("meedleseo.html", array("object_type" => $this->getView()));
 		$event->add($html);
     }
+	public function onMainTopMenuToolsContents(HookRenderBlockEvent $event){
+		$event->add(array(
+			"id" => "meedleseoTools",
+			"class" => '',
+			"url" => URL::getInstance()->absoluteUrl('/admin/modules/meedleseo/gestionseo'),
+			"title" => $this->trans("SEO par défaut")
+		));		
+    }
+
 }
 ?>

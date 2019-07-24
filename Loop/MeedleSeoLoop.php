@@ -1,6 +1,8 @@
 <?php
 namespace MeedleSeo\Loop;
 use MeedleSeo\Model\MeedleSeoQuery;
+use MeedleSeo\Model\MeedleSeoI18nQuery;
+use MeedleSeo\Model\MeedleSeoI18n;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Event\Image\ImageEvent;
@@ -53,7 +55,7 @@ class MeedleSeoLoop extends BaseLoop implements PropelSearchLoopInterface{
             $search->filterById($id, Criteria::IN);
         }
         $objectId = $this->getOi();
-        if ($objectId) {
+        if ($objectId !== null) {
             $search->filterByViewId($objectId, Criteria::IN);
         }
         $objectType = $this->getOt();
@@ -79,7 +81,7 @@ class MeedleSeoLoop extends BaseLoop implements PropelSearchLoopInterface{
 			$oiu ='';
 			$ip ='';
 			$oip ='';
-			if($seo->getFile()){
+			if($seo->getFile() && is_file($meedleSeo->getUploadDir() . DS . $seo->getFile())){
 				$event = new ImageEvent();
 				$event->setSourceFilepath($meedleSeo->getUploadDir() . DS . $seo->getFile())->setCacheSubdirectory('meedleseo');		
 				switch ($this->getResizeMode()) {
@@ -130,6 +132,9 @@ class MeedleSeoLoop extends BaseLoop implements PropelSearchLoopInterface{
                 $ip = $event->getCacheFilepath();
                 $oip = $event->getSourceFilepath();
 			}
+			if(null === $i18n = MeedleSeoI18nQuery::create()->filterByMeedleSeoId($seo->getId())->findOne()){
+				$i18n = new MeedleSeoI18n();
+			}
             $loopResultRow
                 ->set('ID', $seo->getId())
                 ->set('VIEW_TYPE', $seo->getViewName())
@@ -147,6 +152,13 @@ class MeedleSeoLoop extends BaseLoop implements PropelSearchLoopInterface{
                 ->set("ORIGINAL_IMAGE_URL", $oiu)
                 ->set("IMAGE_PATH", $ip)
                 ->set("ORIGINAL_IMAGE_PATH", $oip)
+                ->set("PAGE_TITLE", $i18n->getTitle())
+                ->set("PAGE_CHAPO", $i18n->getChapo())
+                ->set("PAGE_DESCRIPTION", $i18n->getDescription())
+                ->set("PAGE_POSTSCRIPTUM", $i18n->getPostscriptum())
+                ->set("META_TITLE", $i18n->getMetaTitle())
+                ->set("META_DESCRIPTION", $i18n->getMetaDescription())
+                ->set("META_KEYWORD", $i18n->getMetaKeywords())
             ;
             $loopResult->addRow($loopResultRow);
         }
