@@ -13,18 +13,7 @@
         <column name="file" size="100" type="VARCHAR" />
         <column name="og_type" size="100" type="VARCHAR" />
         <column name="locale" size="10" type="VARCHAR" />
-    </table>
-	
-    <table name="meedle_seo_i18n" namespace="MeedleSeo\Model">
-        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-        <column defaultValue="0" name="meedle_seo_id" required="true" type="INTEGER" />
-		<column name="title" size="255" type="VARCHAR" />
-		<column name="description" type="CLOB" />
-		<column name="chapo" type="LONGVARCHAR" />
-		<column name="postscriptum" type="LONGVARCHAR" />
-		<column name="meta_title" size="255" type="VARCHAR" />
-		<column name="meta_description" type="LONGVARCHAR" />
-		<column name="meta_keywords" type="LONGVARCHAR" />
+		<column defaultValue="0" name="nofollow" required="true" type="TINYINT" />
     </table>
  
     <external-schema filename="local/config/schema.xml" referenceOnly="true" />

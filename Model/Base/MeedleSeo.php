@@ -107,6 +107,13 @@ abstract class MeedleSeo implements ActiveRecordInterface
     protected $locale;
 
     /**
+     * The value for the nofollow field.
+     * Note: this column has a database default value of: 0
+     * @var        int
+     */
+    protected $nofollow;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -123,6 +130,7 @@ abstract class MeedleSeo implements ActiveRecordInterface
     public function applyDefaultValues()
     {
         $this->view_id = 0;
+        $this->nofollow = 0;
     }
 
     /**
@@ -485,6 +493,17 @@ abstract class MeedleSeo implements ActiveRecordInterface
     }
 
     /**
+     * Get the [nofollow] column value.
+     *
+     * @return   int
+     */
+    public function getNofollow()
+    {
+
+        return $this->nofollow;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
@@ -674,6 +693,27 @@ abstract class MeedleSeo implements ActiveRecordInterface
     } // setLocale()
 
     /**
+     * Set the value of [nofollow] column.
+     *
+     * @param      int $v new value
+     * @return   \MeedleSeo\Model\MeedleSeo The current object (for fluent API support)
+     */
+    public function setNofollow($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->nofollow !== $v) {
+            $this->nofollow = $v;
+            $this->modifiedColumns[MeedleSeoTableMap::NOFOLLOW] = true;
+        }
+
+
+        return $this;
+    } // setNofollow()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -684,6 +724,10 @@ abstract class MeedleSeo implements ActiveRecordInterface
     public function hasOnlyDefaultValues()
     {
             if ($this->view_id !== 0) {
+                return false;
+            }
+
+            if ($this->nofollow !== 0) {
                 return false;
             }
 
@@ -740,6 +784,9 @@ abstract class MeedleSeo implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : MeedleSeoTableMap::translateFieldName('Locale', TableMap::TYPE_PHPNAME, $indexType)];
             $this->locale = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : MeedleSeoTableMap::translateFieldName('Nofollow', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nofollow = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -748,7 +795,7 @@ abstract class MeedleSeo implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 9; // 9 = MeedleSeoTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 10; // 10 = MeedleSeoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \MeedleSeo\Model\MeedleSeo object", 0, $e);
@@ -984,6 +1031,9 @@ abstract class MeedleSeo implements ActiveRecordInterface
         if ($this->isColumnModified(MeedleSeoTableMap::LOCALE)) {
             $modifiedColumns[':p' . $index++]  = 'LOCALE';
         }
+        if ($this->isColumnModified(MeedleSeoTableMap::NOFOLLOW)) {
+            $modifiedColumns[':p' . $index++]  = 'NOFOLLOW';
+        }
 
         $sql = sprintf(
             'INSERT INTO meedle_seo (%s) VALUES (%s)',
@@ -1021,6 +1071,9 @@ abstract class MeedleSeo implements ActiveRecordInterface
                         break;
                     case 'LOCALE':
                         $stmt->bindValue($identifier, $this->locale, PDO::PARAM_STR);
+                        break;
+                    case 'NOFOLLOW':
+                        $stmt->bindValue($identifier, $this->nofollow, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -1111,6 +1164,9 @@ abstract class MeedleSeo implements ActiveRecordInterface
             case 8:
                 return $this->getLocale();
                 break;
+            case 9:
+                return $this->getNofollow();
+                break;
             default:
                 return null;
                 break;
@@ -1148,6 +1204,7 @@ abstract class MeedleSeo implements ActiveRecordInterface
             $keys[6] => $this->getFile(),
             $keys[7] => $this->getOgType(),
             $keys[8] => $this->getLocale(),
+            $keys[9] => $this->getNofollow(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1214,6 +1271,9 @@ abstract class MeedleSeo implements ActiveRecordInterface
             case 8:
                 $this->setLocale($value);
                 break;
+            case 9:
+                $this->setNofollow($value);
+                break;
         } // switch()
     }
 
@@ -1247,6 +1307,7 @@ abstract class MeedleSeo implements ActiveRecordInterface
         if (array_key_exists($keys[6], $arr)) $this->setFile($arr[$keys[6]]);
         if (array_key_exists($keys[7], $arr)) $this->setOgType($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setLocale($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setNofollow($arr[$keys[9]]);
     }
 
     /**
@@ -1267,6 +1328,7 @@ abstract class MeedleSeo implements ActiveRecordInterface
         if ($this->isColumnModified(MeedleSeoTableMap::FILE)) $criteria->add(MeedleSeoTableMap::FILE, $this->file);
         if ($this->isColumnModified(MeedleSeoTableMap::OG_TYPE)) $criteria->add(MeedleSeoTableMap::OG_TYPE, $this->og_type);
         if ($this->isColumnModified(MeedleSeoTableMap::LOCALE)) $criteria->add(MeedleSeoTableMap::LOCALE, $this->locale);
+        if ($this->isColumnModified(MeedleSeoTableMap::NOFOLLOW)) $criteria->add(MeedleSeoTableMap::NOFOLLOW, $this->nofollow);
 
         return $criteria;
     }
@@ -1338,6 +1400,7 @@ abstract class MeedleSeo implements ActiveRecordInterface
         $copyObj->setFile($this->getFile());
         $copyObj->setOgType($this->getOgType());
         $copyObj->setLocale($this->getLocale());
+        $copyObj->setNofollow($this->getNofollow());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1380,6 +1443,7 @@ abstract class MeedleSeo implements ActiveRecordInterface
         $this->file = null;
         $this->og_type = null;
         $this->locale = null;
+        $this->nofollow = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();

@@ -20,26 +20,7 @@ CREATE TABLE `meedle_seo`
     `file` VARCHAR(100),
     `og_type` VARCHAR(100),
     `locale` VARCHAR(10),
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
-
--- ---------------------------------------------------------------------
--- meedle_seo_i18n
--- ---------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `meedle_seo_i18n`;
-
-CREATE TABLE `meedle_seo_i18n`
-(
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `meedle_seo_id` INTEGER DEFAULT 0 NOT NULL,
-    `title` VARCHAR(255),
-    `description` LONGTEXT,
-    `chapo` TEXT,
-    `postscriptum` TEXT,
-    `meta_title` VARCHAR(255),
-    `meta_description` TEXT,
-    `meta_keywords` TEXT,
+    `nofollow` TINYINT DEFAULT 0 NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 

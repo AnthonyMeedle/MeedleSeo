@@ -58,7 +58,7 @@ class MeedleSeoTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 9;
+    const NUM_COLUMNS = 10;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class MeedleSeoTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 9;
+    const NUM_HYDRATE_COLUMNS = 10;
 
     /**
      * the column name for the ID field
@@ -116,6 +116,11 @@ class MeedleSeoTableMap extends TableMap
     const LOCALE = 'meedle_seo.LOCALE';
 
     /**
+     * the column name for the NOFOLLOW field
+     */
+    const NOFOLLOW = 'meedle_seo.NOFOLLOW';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -127,12 +132,12 @@ class MeedleSeoTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'ViewName', 'ViewId', 'OgUrl', 'OgTitle', 'OgDescription', 'File', 'OgType', 'Locale', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'viewName', 'viewId', 'ogUrl', 'ogTitle', 'ogDescription', 'file', 'ogType', 'locale', ),
-        self::TYPE_COLNAME       => array(MeedleSeoTableMap::ID, MeedleSeoTableMap::VIEW_NAME, MeedleSeoTableMap::VIEW_ID, MeedleSeoTableMap::OG_URL, MeedleSeoTableMap::OG_TITLE, MeedleSeoTableMap::OG_DESCRIPTION, MeedleSeoTableMap::FILE, MeedleSeoTableMap::OG_TYPE, MeedleSeoTableMap::LOCALE, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'VIEW_NAME', 'VIEW_ID', 'OG_URL', 'OG_TITLE', 'OG_DESCRIPTION', 'FILE', 'OG_TYPE', 'LOCALE', ),
-        self::TYPE_FIELDNAME     => array('id', 'view_name', 'view_id', 'og_url', 'og_title', 'og_description', 'file', 'og_type', 'locale', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Id', 'ViewName', 'ViewId', 'OgUrl', 'OgTitle', 'OgDescription', 'File', 'OgType', 'Locale', 'Nofollow', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'viewName', 'viewId', 'ogUrl', 'ogTitle', 'ogDescription', 'file', 'ogType', 'locale', 'nofollow', ),
+        self::TYPE_COLNAME       => array(MeedleSeoTableMap::ID, MeedleSeoTableMap::VIEW_NAME, MeedleSeoTableMap::VIEW_ID, MeedleSeoTableMap::OG_URL, MeedleSeoTableMap::OG_TITLE, MeedleSeoTableMap::OG_DESCRIPTION, MeedleSeoTableMap::FILE, MeedleSeoTableMap::OG_TYPE, MeedleSeoTableMap::LOCALE, MeedleSeoTableMap::NOFOLLOW, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'VIEW_NAME', 'VIEW_ID', 'OG_URL', 'OG_TITLE', 'OG_DESCRIPTION', 'FILE', 'OG_TYPE', 'LOCALE', 'NOFOLLOW', ),
+        self::TYPE_FIELDNAME     => array('id', 'view_name', 'view_id', 'og_url', 'og_title', 'og_description', 'file', 'og_type', 'locale', 'nofollow', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -142,12 +147,12 @@ class MeedleSeoTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'ViewName' => 1, 'ViewId' => 2, 'OgUrl' => 3, 'OgTitle' => 4, 'OgDescription' => 5, 'File' => 6, 'OgType' => 7, 'Locale' => 8, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'viewName' => 1, 'viewId' => 2, 'ogUrl' => 3, 'ogTitle' => 4, 'ogDescription' => 5, 'file' => 6, 'ogType' => 7, 'locale' => 8, ),
-        self::TYPE_COLNAME       => array(MeedleSeoTableMap::ID => 0, MeedleSeoTableMap::VIEW_NAME => 1, MeedleSeoTableMap::VIEW_ID => 2, MeedleSeoTableMap::OG_URL => 3, MeedleSeoTableMap::OG_TITLE => 4, MeedleSeoTableMap::OG_DESCRIPTION => 5, MeedleSeoTableMap::FILE => 6, MeedleSeoTableMap::OG_TYPE => 7, MeedleSeoTableMap::LOCALE => 8, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'VIEW_NAME' => 1, 'VIEW_ID' => 2, 'OG_URL' => 3, 'OG_TITLE' => 4, 'OG_DESCRIPTION' => 5, 'FILE' => 6, 'OG_TYPE' => 7, 'LOCALE' => 8, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'view_name' => 1, 'view_id' => 2, 'og_url' => 3, 'og_title' => 4, 'og_description' => 5, 'file' => 6, 'og_type' => 7, 'locale' => 8, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'ViewName' => 1, 'ViewId' => 2, 'OgUrl' => 3, 'OgTitle' => 4, 'OgDescription' => 5, 'File' => 6, 'OgType' => 7, 'Locale' => 8, 'Nofollow' => 9, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'viewName' => 1, 'viewId' => 2, 'ogUrl' => 3, 'ogTitle' => 4, 'ogDescription' => 5, 'file' => 6, 'ogType' => 7, 'locale' => 8, 'nofollow' => 9, ),
+        self::TYPE_COLNAME       => array(MeedleSeoTableMap::ID => 0, MeedleSeoTableMap::VIEW_NAME => 1, MeedleSeoTableMap::VIEW_ID => 2, MeedleSeoTableMap::OG_URL => 3, MeedleSeoTableMap::OG_TITLE => 4, MeedleSeoTableMap::OG_DESCRIPTION => 5, MeedleSeoTableMap::FILE => 6, MeedleSeoTableMap::OG_TYPE => 7, MeedleSeoTableMap::LOCALE => 8, MeedleSeoTableMap::NOFOLLOW => 9, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'VIEW_NAME' => 1, 'VIEW_ID' => 2, 'OG_URL' => 3, 'OG_TITLE' => 4, 'OG_DESCRIPTION' => 5, 'FILE' => 6, 'OG_TYPE' => 7, 'LOCALE' => 8, 'NOFOLLOW' => 9, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'view_name' => 1, 'view_id' => 2, 'og_url' => 3, 'og_title' => 4, 'og_description' => 5, 'file' => 6, 'og_type' => 7, 'locale' => 8, 'nofollow' => 9, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -175,6 +180,7 @@ class MeedleSeoTableMap extends TableMap
         $this->addColumn('FILE', 'File', 'VARCHAR', false, 100, null);
         $this->addColumn('OG_TYPE', 'OgType', 'VARCHAR', false, 100, null);
         $this->addColumn('LOCALE', 'Locale', 'VARCHAR', false, 10, null);
+        $this->addColumn('NOFOLLOW', 'Nofollow', 'TINYINT', true, null, 0);
     } // initialize()
 
     /**
@@ -331,6 +337,7 @@ class MeedleSeoTableMap extends TableMap
             $criteria->addSelectColumn(MeedleSeoTableMap::FILE);
             $criteria->addSelectColumn(MeedleSeoTableMap::OG_TYPE);
             $criteria->addSelectColumn(MeedleSeoTableMap::LOCALE);
+            $criteria->addSelectColumn(MeedleSeoTableMap::NOFOLLOW);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.VIEW_NAME');
@@ -341,6 +348,7 @@ class MeedleSeoTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.FILE');
             $criteria->addSelectColumn($alias . '.OG_TYPE');
             $criteria->addSelectColumn($alias . '.LOCALE');
+            $criteria->addSelectColumn($alias . '.NOFOLLOW');
         }
     }
 

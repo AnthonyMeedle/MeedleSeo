@@ -2,13 +2,21 @@
 {$ogdescription=''}
 {$ogtype=''}
 {$img=''}
+{$seo_nofollow=''}
 
 {loop type="meedleseo" name="meedleseo" oi="{$object_id}" ot="{$object_type}" locale="{$locale}"}
 {$ogtitle=$TITLE}
 {$ogdescription=$DESCRIPTION}
 {$ogtype=$TYPE}
 {$img=$IMAGE_URL}
+{$seo_nofollow=$NOFOLLOW_CHECKED}
 {/loop}
+
+<div class="form-group ">
+	<label for="seo_nofollow" class="control-label">no-index nofollow </label>
+	<input type="checkbox" id="seo_nofollow" name="seo_nofollow" value="1" {$seo_nofollow} class="form-control " placeholder="">
+	<span class="help-block"></span>
+</div>
 
 <div class="form-group ">
 	<label for="meta_og_title" class="control-label">og:title </label>

@@ -36,6 +36,7 @@ class MeedleSeoAdminEventListerner implements EventSubscriberInterface
 			->setLocale($event->getLocale())
 			->setOgUrl($event->getUrl())
 			->setViewId($event->getObjectId())
+			->setNofollow($this->request->get('seo_nofollow'))
 			->setOgTitle($this->request->get('meta_og_title'))
 			->setOgDescription($this->request->get('meedleseo_og_description'))
 			->setOgType($this->request->get('meta_og_type'))

@@ -27,6 +27,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMeedleSeoQuery orderByFile($order = Criteria::ASC) Order by the file column
  * @method     ChildMeedleSeoQuery orderByOgType($order = Criteria::ASC) Order by the og_type column
  * @method     ChildMeedleSeoQuery orderByLocale($order = Criteria::ASC) Order by the locale column
+ * @method     ChildMeedleSeoQuery orderByNofollow($order = Criteria::ASC) Order by the nofollow column
  *
  * @method     ChildMeedleSeoQuery groupById() Group by the id column
  * @method     ChildMeedleSeoQuery groupByViewName() Group by the view_name column
@@ -37,6 +38,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMeedleSeoQuery groupByFile() Group by the file column
  * @method     ChildMeedleSeoQuery groupByOgType() Group by the og_type column
  * @method     ChildMeedleSeoQuery groupByLocale() Group by the locale column
+ * @method     ChildMeedleSeoQuery groupByNofollow() Group by the nofollow column
  *
  * @method     ChildMeedleSeoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildMeedleSeoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -54,6 +56,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMeedleSeo findOneByFile(string $file) Return the first ChildMeedleSeo filtered by the file column
  * @method     ChildMeedleSeo findOneByOgType(string $og_type) Return the first ChildMeedleSeo filtered by the og_type column
  * @method     ChildMeedleSeo findOneByLocale(string $locale) Return the first ChildMeedleSeo filtered by the locale column
+ * @method     ChildMeedleSeo findOneByNofollow(int $nofollow) Return the first ChildMeedleSeo filtered by the nofollow column
  *
  * @method     array findById(int $id) Return ChildMeedleSeo objects filtered by the id column
  * @method     array findByViewName(string $view_name) Return ChildMeedleSeo objects filtered by the view_name column
@@ -64,6 +67,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByFile(string $file) Return ChildMeedleSeo objects filtered by the file column
  * @method     array findByOgType(string $og_type) Return ChildMeedleSeo objects filtered by the og_type column
  * @method     array findByLocale(string $locale) Return ChildMeedleSeo objects filtered by the locale column
+ * @method     array findByNofollow(int $nofollow) Return ChildMeedleSeo objects filtered by the nofollow column
  *
  */
 abstract class MeedleSeoQuery extends ModelCriteria
@@ -152,7 +156,7 @@ abstract class MeedleSeoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, VIEW_NAME, VIEW_ID, OG_URL, OG_TITLE, OG_DESCRIPTION, FILE, OG_TYPE, LOCALE FROM meedle_seo WHERE ID = :p0';
+        $sql = 'SELECT ID, VIEW_NAME, VIEW_ID, OG_URL, OG_TITLE, OG_DESCRIPTION, FILE, OG_TYPE, LOCALE, NOFOLLOW FROM meedle_seo WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -524,6 +528,47 @@ abstract class MeedleSeoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MeedleSeoTableMap::LOCALE, $locale, $comparison);
+    }
+
+    /**
+     * Filter the query on the nofollow column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNofollow(1234); // WHERE nofollow = 1234
+     * $query->filterByNofollow(array(12, 34)); // WHERE nofollow IN (12, 34)
+     * $query->filterByNofollow(array('min' => 12)); // WHERE nofollow > 12
+     * </code>
+     *
+     * @param     mixed $nofollow The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMeedleSeoQuery The current query, for fluid interface
+     */
+    public function filterByNofollow($nofollow = null, $comparison = null)
+    {
+        if (is_array($nofollow)) {
+            $useMinMax = false;
+            if (isset($nofollow['min'])) {
+                $this->addUsingAlias(MeedleSeoTableMap::NOFOLLOW, $nofollow['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($nofollow['max'])) {
+                $this->addUsingAlias(MeedleSeoTableMap::NOFOLLOW, $nofollow['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(MeedleSeoTableMap::NOFOLLOW, $nofollow, $comparison);
     }
 
     /**
