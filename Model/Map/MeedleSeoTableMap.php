@@ -180,7 +180,7 @@ class MeedleSeoTableMap extends TableMap
         $this->addColumn('FILE', 'File', 'VARCHAR', false, 100, null);
         $this->addColumn('OG_TYPE', 'OgType', 'VARCHAR', false, 100, null);
         $this->addColumn('LOCALE', 'Locale', 'VARCHAR', false, 10, null);
-        $this->addColumn('NOFOLLOW', 'Nofollow', 'TINYINT', true, null, 0);
+        $this->addColumn('NOFOLLOW', 'Nofollow', 'TINYINT', false, null, 0);
     } // initialize()
 
     /**

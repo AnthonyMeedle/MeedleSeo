@@ -13,7 +13,7 @@
         <column name="file" size="100" type="VARCHAR" />
         <column name="og_type" size="100" type="VARCHAR" />
         <column name="locale" size="10" type="VARCHAR" />
-		<column defaultValue="0" name="nofollow" required="true" type="TINYINT" />
+		<column defaultValue="0" name="nofollow" type="TINYINT" />
     </table>
 	
     <table name="meedle_seo_i18n" namespace="MeedleSeo\Model">

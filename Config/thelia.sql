@@ -20,7 +20,7 @@ CREATE TABLE `meedle_seo`
     `file` VARCHAR(100),
     `og_type` VARCHAR(100),
     `locale` VARCHAR(10),
-    `nofollow` TINYINT DEFAULT 0 NOT NULL,
+    `nofollow` TINYINT DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
