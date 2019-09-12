@@ -19,23 +19,23 @@
 	compt($('#meedleseo_og_description'));
 		
 	function compt(objet){
-		
-		$(objet).unbind().keyup(function(){
-			compt($(this));
-		});
-		var nbrtt = $(objet).val().length;
-		var objetCompt = $(objet).next().next();
-		var limit = $(objetCompt).data('limit');
-		$(objetCompt).html( nbrtt + '/' + limit);
+		if($(objet).length){
+			$(objet).unbind().keyup(function(){
+				compt($(this));
+			});
+			var nbrtt = $(objet).val().length;
+			var objetCompt = $(objet).next().next();
+			var limit = $(objetCompt).data('limit');
+			$(objetCompt).html( nbrtt + '/' + limit);
 
-		if(nbrtt > limit){
-			$(objetCompt).css('color','red');
-			$(objet).css('color','red');
-		}else{
-			$(objetCompt).css('color','#737373');
-			$(objet).css('color','#737373');
+			if(nbrtt > limit){
+				$(objetCompt).css('color','red');
+				$(objet).css('color','red');
+			}else{
+				$(objetCompt).css('color','#737373');
+				$(objet).css('color','#737373');
+			}
 		}
-
 	}
 	
 </script>
