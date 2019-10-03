@@ -122,6 +122,7 @@ class MeedleSeoAdminController extends BaseAdminController
         if ($message !== null) {
             throw new ProcessFileException($message, 415);
         }
+		$realFileName = $this->ereg_caracspec($realFileName);
 		$fichier = $this->ereg_caracspec($parentId.'_'.$realFileName);
 		$up = new UploadedFile($fileBeingUploaded, $realFileName, $mimeType);
 		$retour = $up->move(__DIR__.'/../../../../media/images/meedleseo/', $fichier);
@@ -134,12 +135,13 @@ class MeedleSeoAdminController extends BaseAdminController
 		else
 			$chaine = strtolower($chaine);
 		$chaine = $this->supprAccent($chaine);
-
+		
 		$chaine = str_replace(
 			array(':', ';', ',', '°'),
 			array('-', '-', '-', '-'),
 			$chaine
 		 );
+		$chaine = str_replace(" ", "-", $chaine);
 		$chaine = str_replace("(", "", $chaine);
 		$chaine = str_replace(")", "", $chaine);
 		$chaine = str_replace(" ", "-", $chaine);

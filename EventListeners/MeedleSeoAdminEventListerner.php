@@ -128,13 +128,97 @@ class MeedleSeoAdminEventListerner implements EventSubscriberInterface
         if ($message !== null) {
             throw new ProcessFileException($message, 415);
         }
-		$fichier = $parentId.'_'.$realFileName;
+//		$fichier = $parentId.'_'.$realFileName;
+		$realFileName = $this->ereg_caracspec($realFileName);
+		$fichier = $this->ereg_caracspec($parentId.'_'.$realFileName);
 		$up = new UploadedFile($fileBeingUploaded, $realFileName, $mimeType);
 		$up->move(__DIR__.'/../../../media/images/meedleseo/', $fichier);
 		
         return $fichier;
     }
 	
+	public function ereg_caracspec($chaine){
+		$chaine = trim($chaine);
+		if(function_exists('mb_strtolower'))
+			$chaine = mb_strtolower($chaine);
+		else
+			$chaine = strtolower($chaine);
+		$chaine = $this->supprAccent($chaine);
+		
+		$chaine = str_replace(
+			array(':', ';', ',', '°'),
+			array('-', '-', '-', '-'),
+			$chaine
+		 );
+		$chaine = str_replace(" ", "-", $chaine);
+		$chaine = str_replace("(", "", $chaine);
+		$chaine = str_replace(")", "", $chaine);
+		$chaine = str_replace(" ", "-", $chaine);
+		$chaine = str_replace("'", "-", $chaine);
+		$chaine = str_replace("&nbsp;", "-", $chaine);
+		$chaine = str_replace("\"", "-", $chaine);
+		$chaine = str_replace("?", "", $chaine);
+		$chaine = str_replace("*", "-", $chaine);
+		$chaine = str_replace("!", "", $chaine);
+		$chaine = str_replace("+", "-", $chaine);
+		$chaine = str_replace("ß", "ss", $chaine);
+		$chaine = str_replace("%", "", $chaine);
+		$chaine = str_replace("²", "2", $chaine);
+		$chaine = str_replace("³", "3", $chaine);
+		$chaine = str_replace("œ", "oe", $chaine);
+		$chaine = str_replace(chr(128), "", $chaine);
+		$chaine = str_replace(chr(226), "", $chaine);
+		$chaine = str_replace(chr(146), "-", $chaine);
+		$chaine = str_replace(chr(150), "-", $chaine);
+		$chaine = str_replace(chr(151), "-", $chaine);
+		$chaine = str_replace(chr(153), "", $chaine);
+		$chaine = str_replace(chr(169), "", $chaine);
+		$chaine = str_replace(chr(174), "", $chaine);
+		$chaine = str_replace("&", "et", $chaine);
+		$chaine = str_replace("?", "", $chaine);
+		$chaine = str_replace("é", "e", $chaine);
+		return $chaine;
+	}
+
+	public function supprAccent($texte) {
+	   $texte = str_replace(    array(
+									'à', 'â', 'ä', 'á', 'ã', 'å',
+									'î', 'ï', 'ì', 'í',
+									'ô', 'ö', 'ò', 'ó', 'õ', 'ø',
+									'ù', 'û', 'ü', 'ú',
+									'é', 'è', 'ê', 'ë',
+									'ç', 'ÿ', 'ñ', 'ý'
+								),
+								array(
+									'a', 'a', 'a', 'a', 'a', 'a',
+									'i', 'i', 'i', 'i',
+									'o', 'o', 'o', 'o', 'o', 'o',
+									'u', 'u', 'u', 'u',
+									'e', 'e', 'e', 'e',
+									'c', 'y', 'n', 'y'
+								),
+								$texte
+					);
+		$texte = str_replace(    array(
+									'À', 'Â', 'Ä', 'Á', 'Ã', 'Å',
+									'Î', 'Ï', 'Ì', 'Í',
+									'Ô', 'Ö', 'Ò', 'Ó', 'Õ', 'Ø',
+									'Ù', 'Û', 'Ü', 'Ú',
+									'É', 'È', 'Ê', 'Ë',
+									'Ç', 'Ÿ', 'Ñ', 'Ý',
+								),
+								array(
+									'A', 'A', 'A', 'A', 'A', 'A',
+									'I', 'I', 'I', 'I',
+									'O', 'O', 'O', 'O', 'O', 'O',
+									'U', 'U', 'U', 'U',
+									'E', 'E', 'E', 'E',
+									'C', 'Y', 'N', 'Y',
+								),
+								$texte
+							);
+		return $texte;
+	}
 	
     public static function getSubscribedEvents()
     {
